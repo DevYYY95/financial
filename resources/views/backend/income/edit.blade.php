@@ -1,0 +1,73 @@
+@extends('layouts.app', [
+    'class' => 'sidebar-mini ',
+    'namePage' => 'Edit income',
+    'activePage' => 'income',
+    'activeNav' => '',
+])
+
+@section('content')
+    <div class="panel-header">
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-xl-12 order-xl-1">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">{{ __('Income') }}</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                                <a href="{{ route('income.index') }}" class="btn btn-primary btn-round">{{ __('Back to list') }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="{{ route('income.update',$data->id) }}" autocomplete="off"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PATCH')
+                            <h6 class="heading-small text-muted mb-4">{{ __('Edit income') }}</h6>
+                            <div class="pl-lg-4">
+                                <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-name">{{ __('Income Category') }}</label>
+                                    <select class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="income_cat_id">
+                                        <option value="option_select" disabled selected>Income Categories</option>
+                                        @foreach($category as $row)
+                                            <option value="{{$row->id}}" {{$data->income_cat_id == $row->id ? 'selected' : ''}}>{{$row->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-name">{{ __('Entry date') }}</label>
+                                    <input type="date" name="entry_date" id="input-name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Entry date') }}" value="{{$data->entry_date}}" required autofocus>
+
+                                    @include('alerts.feedback', ['field' => 'entry_date'])
+                                </div>
+
+                                <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-name">{{ __('Amount') }}</label>
+                                    <input type="text" name="amount" id="input-name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Amount') }}" value="{{$data->amount}}" required autofocus>
+
+                                    @include('alerts.feedback', ['field' => 'amount'])
+                                </div>
+
+                                <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-name">{{ __('Description') }}</label>
+                                    <input type="text" name="description" id="input-name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Description') }}" value="{{$data->description}}" required autofocus>
+
+                                    @include('alerts.feedback', ['field' => 'description'])
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
